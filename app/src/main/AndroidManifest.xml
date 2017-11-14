@@ -31,7 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StreetViewPanoramaBasicDemoActivity"></activity>
+        <activity android:name=".StreetViewPanoramaBasicDemoActivity" />
+        <activity android:name=".UiSettingsDemoActivity"></activity>
     </application>
 
 </manifest>

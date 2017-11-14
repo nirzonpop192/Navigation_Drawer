@@ -300,13 +300,17 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            Intent intent = new Intent(MainActivity.this, UiSettingsDemoActivity.class);
+            intent.putExtra(KeyClass.LAT_KEY,mLastLocation.getLatitude());
+            intent.putExtra(KeyClass.LONG_KEY,mLastLocation.getLongitude());
+
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-            double latitude,longitude;
-            latitude=mLastLocation.getLatitude();
-            longitude=mLastLocation.getLongitude();
+
             Intent intent = new Intent(MainActivity.this, StreetViewPanoramaBasicDemoActivity.class);
-            intent.putExtra(KeyClass.LAT_KEY,latitude);
-            intent.putExtra(KeyClass.LONG_KEY,longitude);
+            intent.putExtra(KeyClass.LAT_KEY,mLastLocation.getLatitude());
+            intent.putExtra(KeyClass.LONG_KEY,mLastLocation.getLongitude());
+
             startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {

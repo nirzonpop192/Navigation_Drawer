@@ -22,7 +22,8 @@ public class StreetViewPanoramaBasicDemoActivity extends AppCompatActivity {
         final double lat = intent.getDoubleExtra(KeyClass.LAT_KEY, 0.0);
         final double log = intent.getDoubleExtra(KeyClass.LONG_KEY, 0.0);
 
-        final LatLng var = new LatLng(lat, log);
+        final LatLng var = new LatLng(intent.getDoubleExtra(KeyClass.LAT_KEY, 0.0),
+                log);
         SupportStreetViewPanoramaFragment streetViewPanoramaFragment =
                 (SupportStreetViewPanoramaFragment)
                         getSupportFragmentManager().findFragmentById(R.id.streetviewpanorama);
