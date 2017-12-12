@@ -32,7 +32,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".StreetViewPanoramaBasicDemoActivity" />
-        <activity android:name=".UiSettingsDemoActivity"></activity>
+        <activity android:name=".UiSettingsDemoActivity" />
+        <activity android:name=".StreetViewPanoramaEventsDemoActivity" />
+        <activity android:name=".Main2Activity"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package rnd.com.technodhaka.android.navigationdrawer;
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -9,11 +10,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity
         GoogleApiClient.ConnectionCallbacks, LocationListener {
 
 
-
     private GoogleMap mMap;
     //    private MapView mMapView;
     GoogleApiClient mGoogleApiClient;
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -82,6 +81,7 @@ public class MainActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
 
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
@@ -299,23 +299,37 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
-            Intent intent = new Intent(MainActivity.this, UiSettingsDemoActivity.class);
-            intent.putExtra(KeyClass.LAT_KEY,mLastLocation.getLatitude());
-            intent.putExtra(KeyClass.LONG_KEY,mLastLocation.getLongitude());
 
-            startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
+            Fragment fragment;
+            FragmentManager manager = MainActivity.this.getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            fragment = new BlankFragment();
+            BlankFragment blankFragment = new BlankFragment();
+            getFragmentManager().beginTransaction().add(blankFragment, "UI").commit();
 
-            Intent intent = new Intent(MainActivity.this, StreetViewPanoramaBasicDemoActivity.class);
-            intent.putExtra(KeyClass.LAT_KEY,mLastLocation.getLatitude());
-            intent.putExtra(KeyClass.LONG_KEY,mLastLocation.getLongitude());
+        } else if (id == R.id.nav_street_view) {
+            if (mLastLocation != null) {
+                Intent intent = new Intent(MainActivity.this, StreetViewPanoramaBasicDemoActivity.class);
+                intent.putExtra(KeyClass.LAT_KEY, mLastLocation.getLatitude());
+                intent.putExtra(KeyClass.LONG_KEY, mLastLocation.getLongitude());
 
-            startActivity(intent);
+                startActivity(intent);
+            }
 
         } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(MainActivity.this, StreetViewPanoramaEventsDemoActivity.class);
+            intent.putExtra(KeyClass.LAT_KEY, mLastLocation.getLatitude());
+            intent.putExtra(KeyClass.LONG_KEY, mLastLocation.getLongitude());
+
+            startActivity(intent);
 
         } else if (id == R.id.nav_manage) {
+            // Handle the camera action
+            Intent intent = new Intent(MainActivity.this, UiSettingsDemoActivity.class);
+            intent.putExtra(KeyClass.LAT_KEY, mLastLocation.getLatitude());
+            intent.putExtra(KeyClass.LONG_KEY, mLastLocation.getLongitude());
+
+            startActivity(intent);
 
         } else if (id == R.id.nav_share) {
 
