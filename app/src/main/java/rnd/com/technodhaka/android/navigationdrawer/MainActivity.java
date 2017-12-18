@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -21,11 +23,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import com.google.android.gms.common.api.GoogleApiClient;
+
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -37,6 +42,9 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
@@ -193,7 +201,23 @@ public class MainActivity extends AppCompatActivity
             mLocationMarker.remove();
         }
 
-
+        try {
+            Geocoder geo = new Geocoder(MainActivity.this.getApplicationContext(), Locale.getDefault());
+            List<Address> addresses = geo.getFromLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude(), 1);
+            if (addresses.isEmpty()) {
+              //  yourtextfieldname.setText("Waiting for Location");
+                Log.d("see","Waiting for Location");
+            }
+            else {
+                if (addresses.size() > 0) {
+                   // yourtextfieldname.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
+                   Toast.makeText(getApplicationContext(), "Address:- " + addresses.get(0).getFeatureName() + addresses.get(0).getAdminArea() + addresses.get(0).getLocality(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace(); // getFromLocation() may sometimes fail
+        }
         // To help preserve the device’s battery life, you’ll typically want to use
         // removeLocationUpdates to suspend location updates when your app is no longer
         // visible onscreen//
